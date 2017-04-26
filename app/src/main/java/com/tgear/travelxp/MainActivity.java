@@ -1,4 +1,4 @@
-package com.example.yuva.travel_relic;
+package com.tgear.travelxp;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
