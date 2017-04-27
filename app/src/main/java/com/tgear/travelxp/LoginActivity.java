@@ -2,7 +2,6 @@ package com.tgear.travelxp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -11,16 +10,17 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import config.AppConfig;
 import models.SocialProfile;
 import models.User;
-import network.INetworkListener;
-import network.RequestType;
+import models.UserData;
 import network.controllers.BootstrapController;
-import okhttp3.ResponseBody;
 import util.SLogger;
 
-public class LoginActivity extends AppCompatActivity implements INetworkListener {
+public class LoginActivity extends BaseActivity {
     CallbackManager callbackManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,34 +64,18 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
             SocialProfile socialProfile = new SocialProfile(null, AppConfig.Network.FACEBOOK.getName(), profile.getId(), profile.getFirstName(), profile.getMiddleName(),
                     profile.getLastName(), profile.getName(), profile.getProfilePictureUri(100, 100).toString());
             User user = new User(null, socialProfile, null, null, AppConfig.PLATFORM, null);
-            new BootstrapController(this, this).start(user);
+            new BootstrapController(this).bootStrap(user);
             launchFeedActivity();
         }
     }
 
-    @Override
-    public void handleSuccess(RequestType type, Object object) {
-        switch (type) {
-            case BOOT_STRAP:
-                launchFeedActivity() ;
-                break ;
-        }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserData(UserData userData) {
+        launchFeedActivity();
     }
 
     private void launchFeedActivity() {
         Intent intent = new Intent(this, FeedActivity.class) ;
         startActivity(intent);
-    }
-
-    @Override
-    public void handleFailure(RequestType type, ResponseBody responseBody) {
-        // retry pop-up
-        SLogger.NETWORK_CALL.i("Network call failed for " + type.name());
-    }
-
-    @Override
-    public void handleError(RequestType type, Throwable t) {
-        //error... retry pop-up
-        SLogger.NETWORK_CALL.i("Network call failed for " + type.name());
     }
 }

@@ -2,7 +2,6 @@ package com.tgear.travelxp;
 
 import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,18 +11,19 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import models.Post;
 import models.PostDetail;
-import network.INetworkListener;
-import network.RequestType;
+import models.UserData;
 import network.controllers.PostController;
-import okhttp3.ResponseBody;
 import util.SLogger;
 
-public class PostActivity extends AppCompatActivity implements INetworkListener<Post> {
+public class PostActivity extends BaseActivity {
     private Place place ;
     private List<Uri> uris = new ArrayList<>() ;
 
@@ -77,23 +77,12 @@ public class PostActivity extends AppCompatActivity implements INetworkListener<
         Post post = new Post(scribbleText, place != null ? place.getLatLng().latitude: null,
                 place !=null ? place.getLatLng().longitude: null,
                 place != null ? place.getName().toString(): null, postDetails) ;
-        new PostController(this, this).postContent(post);
+        new PostController(this).postContent(post);
     }
 
-    @Override
-    public void handleSuccess(RequestType type, Post object) {
-        SLogger.POST_CONTENT.i("Post object is " + object.toJson());
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPostSuccess(Post post) {
+//        launchFeedActivity();
     }
 
-    @Override
-    public void handleFailure(RequestType type, ResponseBody responseBody) {
-        // retry pop-up
-        SLogger.NETWORK_CALL.i("Network call failed for " + type.name());
-    }
-
-    @Override
-    public void handleError(RequestType type, Throwable t) {
-        //error... retry pop-up
-        SLogger.NETWORK_CALL.i("Network call failed for " + type.name());
-    }
 }

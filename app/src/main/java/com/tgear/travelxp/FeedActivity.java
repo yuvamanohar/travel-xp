@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import adapters.FeedAdapter;
 import models.Post;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
