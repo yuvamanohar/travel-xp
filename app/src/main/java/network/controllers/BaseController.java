@@ -61,6 +61,7 @@ public abstract class BaseController {
         public static String MALFORMED_URI = "Selected File not readable." ;
         public static String USER_DATA_SERVER_ERROR = "Server error while fetching user data" ;
         public static String POST_CONTENT_SERVER_ERROR = "Post failed. Please try again" ;
+        public static String FEED_SERVER_ERROR = "Servers need a vacation. Please try again" ;
         public static String INTERNET_ERROR = "No internet connectivity. Please enable internet and try again !" ;
     }
 

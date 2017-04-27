@@ -56,7 +56,7 @@ public class BootstrapController extends BaseController {
                     UserData userData = response.body();
                     UserConfig.getInstance().set(userData.user, userData.userStatus);
 //                    SLogger.BOOTSTRAP.d("Userdata is : " + userData.toJson());
-                    EventBus.getDefault().post(userData);
+                    EventBus.getDefault().post(response.body());
             }
 
             @Override

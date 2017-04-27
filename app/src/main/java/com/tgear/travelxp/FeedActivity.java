@@ -10,17 +10,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.View;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
 import adapters.FeedAdapter;
+import config.LoadedFeed;
+import config.UserConfig;
+import models.PartialFeed;
 import models.Post;
+import network.controllers.FeedController;
+import util.DateFormatter;
 
 public class FeedActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private FeedAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private static final int REQUEST_WRITE_PERMISSION = 786;
@@ -43,8 +52,9 @@ public class FeedActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new FeedAdapter(this, new ArrayList<Post>());
+        mAdapter = new FeedAdapter(this, LoadedFeed.getInstance());
         mRecyclerView.setAdapter(mAdapter);
+        new FeedController(this).getOlderFeed(UserConfig.getInstance().getUser().userId, DateFormatter.getReadableCurrentTime());
     }
 
     public void onGalleryButtonTap(View v) {
@@ -129,4 +139,10 @@ public class FeedActivity extends BaseActivity {
         intent.putExtra("imageUri", imageUri.toString());
         startActivity(intent) ;
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFeedUpdate(PartialFeed partialFeed) {
+        mAdapter.onFeedUpdate(partialFeed);
+    }
+
 }

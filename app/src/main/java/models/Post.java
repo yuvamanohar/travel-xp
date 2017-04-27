@@ -10,8 +10,7 @@ public class Post extends JsonModel {
 
     public Long postId ;
 
-    public String name ;
-    public String title ;
+    public Long userId ;
     public String scribble ;
     public Double latitude ;
     public Double longitude ;

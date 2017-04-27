@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.NoSubscriberEvent;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -49,5 +50,10 @@ public class BaseActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNetworkRequestFailure(BaseController.NetworkErrorObj networkErrorObj) {
         Toast.makeText(this, networkErrorObj.errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNoSubscriber(NoSubscriberEvent noSubscriberEvent) {
+        Toast.makeText(this, "No subscribers for event " + noSubscriberEvent.originalEvent.toString(), Toast.LENGTH_SHORT).show();
     }
 }

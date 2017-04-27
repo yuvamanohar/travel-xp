@@ -11,8 +11,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tgear.travelxp.R;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
+import config.LoadedFeed;
+import models.PartialFeed;
 import models.Post;
 
 /**
@@ -22,6 +27,8 @@ import models.Post;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder> {
 
     private Context mContext ;
+
+    private LoadedFeed loadedFeed ;
     private List<Post> postList;
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
@@ -48,9 +55,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
     }
 
 
-    public FeedAdapter(Context context, List<Post> postList) {
+    public FeedAdapter(Context context, LoadedFeed loadedFeed) {
         this.mContext = context ;
-        this.postList = postList;
+        this.loadedFeed = loadedFeed ;
+        this.postList = loadedFeed.getPosts() ;
     }
 
     @Override
@@ -64,14 +72,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(final PostViewHolder holder, int position) {
         Post post = postList.get(position);
-        holder.name.setText(post.name);
+        holder.name.setText(LoadedFeed.getInstance().getUserName(post.userId));
         Glide.with(mContext).load(post.postDetails.get(0).media).into(holder.media);
-        holder.title.setText(post.title);
         holder.scribble.setText(post.scribble);
         holder.location.setText(post.location);
-        holder.likes.setText(post.likes);
-        holder.comments.setText(post.comments);
-        holder.shares.setText(post.shares);
+        holder.likes.setText("" + post.likes + " likes");
+        holder.comments.setText("" + post.comments + " comments");
+        holder.shares.setText("" + post.shares + " shares");
 
         // loading album cover using Glide library
 //        Glide.with(mContext).load(album.getThumbnail()).into(holder.thumbnail);
@@ -122,5 +129,18 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
     @Override
     public int getItemCount() {
         return postList.size();
+    }
+
+    public void onFeedUpdate(PartialFeed partialFeed) {
+        int beginSize = LoadedFeed.getInstance().getPosts().size() ;
+        LoadedFeed.getInstance().addPartialFeed(partialFeed);
+        switch (partialFeed.feedType) {
+            case REFRESH_FEED:
+                notifyItemRangeInserted(0, partialFeed.posts.size()) ;
+                break;
+            case OLDER_FEED:
+                notifyItemRangeInserted(beginSize, partialFeed.posts.size()) ;
+                break ;
+        }
     }
 }

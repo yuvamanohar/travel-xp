@@ -84,5 +84,4 @@ public class PostActivity extends BaseActivity {
     public void onPostSuccess(Post post) {
 //        launchFeedActivity();
     }
-
 }
