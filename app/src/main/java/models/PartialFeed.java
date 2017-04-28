@@ -8,7 +8,7 @@ import java.util.Set;
  */
 public class PartialFeed extends JsonModel {
     public enum FeedType {
-        REFRESH_FEED,
+        UPDATED_FEED,
         OLDER_FEED ;
     }
 

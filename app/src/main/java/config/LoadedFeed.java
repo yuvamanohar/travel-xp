@@ -2,10 +2,8 @@ package config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import models.PartialFeed;
 import models.Post;
@@ -46,7 +44,7 @@ public class LoadedFeed {
                 posts.addAll(partialFeed.posts) ;
                 leastRecentPostTime = partialFeed.leastRecentPostTime ;
                 break ;
-            case REFRESH_FEED:
+            case UPDATED_FEED:
                 posts.addAll(0, partialFeed.posts) ;
                 mostRecentPostTime = partialFeed.mostRecentPostTime ;
                 break ;

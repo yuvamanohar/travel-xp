@@ -14,6 +14,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import config.AppConfig;
+import config.UserConfig;
 import models.SocialProfile;
 import models.User;
 import models.UserData;
@@ -65,12 +66,12 @@ public class LoginActivity extends BaseActivity {
                     profile.getLastName(), profile.getName(), profile.getProfilePictureUri(100, 100).toString());
             User user = new User(null, socialProfile, null, null, AppConfig.PLATFORM, null);
             new BootstrapController(this).bootStrap(user);
-            launchFeedActivity();
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserData(UserData userData) {
+        UserConfig.getInstance().set(userData.user, userData.userStatus);
         launchFeedActivity();
     }
 

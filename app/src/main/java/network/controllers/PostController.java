@@ -5,7 +5,6 @@ import android.app.Activity;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +13,12 @@ import config.UserConfig;
 import models.Post;
 import models.PostDetail;
 import network.IPostContent;
+import network.framework.BaseController;
+import network.framework.NetworkErrorObj;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import util.FileUtils;
 
 /**
@@ -46,7 +45,7 @@ public class PostController extends BaseController {
                 file = new File(FileUtils.getFilePath(activity, detail.uri));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
-                EventBus.getDefault().post(NetworkErrorObj.get(ErrorMessage.MALFORMED_URI));
+                EventBus.getDefault().post(NetworkErrorObj.get(null, NetworkErrorObj.ErrorMessage.MALFORMED_URI));
             }
 
             // create RequestBody instance from file
@@ -68,41 +67,11 @@ public class PostController extends BaseController {
         // finally, execute the request
         Call<Post> call = service.postContent(UserConfig.getInstance().getUser().userId,
                                                             description, multipartBodyList);
-//        call.enqueue(new Callback<Post>() {
-//            @Override
-//            public void onResponse(Call<Post> call, Response<Post> response) {
-//                if(response.isSuccessful()) {
-////                    SLogger.POST_CONTENT.d("Post Success : " + response.body().toJson());
-//                    EventBus.getDefault().post(response.body());
-//                } else {
-//                    try {
-//                        String error = response.errorBody().string() ;
-////                        SLogger.POST_CONTENT.d(error);
-//                        EventBus.getDefault().post(NetworkErrorObj.get(ErrorMessage.POST_CONTENT_SERVER_ERROR));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Post> call, Throwable t) {
-//                t.printStackTrace();
-////                SLogger.POST_CONTENT.d("Post Failed : " + t.getMessage());
-//                EventBus.getDefault().post(NetworkErrorObj.get(ErrorMessage.INTERNET_ERROR));
-//            }
-//        });
+        this.enqueue(call) ;
+    }
 
-        call.enqueue(new ResponseHandler<Post>() {
-            @Override
-            public void onSuccess(Call<Post> call, Response<Post> response) {
-                EventBus.getDefault().post(response.body());
-            }
-
-            @Override
-            public void onRequestFailure(Call<Post> call, Response<Post> response) {
-                EventBus.getDefault().post(NetworkErrorObj.get(ErrorMessage.POST_CONTENT_SERVER_ERROR));
-            }
-        });
+    @Override
+    public String getRequestFailureErrorMessage() {
+        return NetworkErrorObj.ErrorMessage.POST_CONTENT_SERVER_ERROR;
     }
 }

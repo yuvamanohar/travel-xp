@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tgear.travelxp.R;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.List;
 
 import config.LoadedFeed;
@@ -135,7 +132,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
         int beginSize = LoadedFeed.getInstance().getPosts().size() ;
         LoadedFeed.getInstance().addPartialFeed(partialFeed);
         switch (partialFeed.feedType) {
-            case REFRESH_FEED:
+            case UPDATED_FEED:
                 notifyItemRangeInserted(0, partialFeed.posts.size()) ;
                 break;
             case OLDER_FEED:
