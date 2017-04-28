@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 
 public interface IFeed {
     @GET("v1/user/{userId}/getOlderFeed")
-    Call<PartialFeed> getOlderFeed(@Path("userId") Long userId, @Query("leastRecentPostTime") String leastRecentPostTime) ;
+    Call<PartialFeed> getOlderFeed(@Path("userId") Long userId, @Query("referenceTime") String referenceTime, @Query("offset") Integer offset) ;
 
     @GET("v1/user/{userId}/getUpdatedFeed")
     Call<PartialFeed> getUpdatedFeed(@Path("userId") Long userId, @Query("mostRecentPostTime") String mostRecentPostTime) ;

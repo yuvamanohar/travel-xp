@@ -2,6 +2,7 @@ package network.controllers;
 
 import android.app.Activity;
 
+import config.LoadedFeed;
 import models.PartialFeed;
 import network.IFeed;
 import network.framework.BaseController;
@@ -17,10 +18,13 @@ public class FeedController extends BaseController {
         super(activity);
     }
 
-    public void getOlderFeed(Long userId, String leastRecentPostTime) {
+    public void getOlderFeed(Long userId, String referenceTime, Integer offset) {
+        if(LoadedFeed.getInstance().getOlderFeedEnd())
+            return;
+
         IFeed iFeed = getClient().create(IFeed.class) ;
 
-        Call<PartialFeed> partialFeedCall = iFeed.getOlderFeed(userId, leastRecentPostTime) ;
+        Call<PartialFeed> partialFeedCall = iFeed.getOlderFeed(userId, referenceTime, offset) ;
         this.enqueue(partialFeedCall);
     }
 

@@ -4,27 +4,23 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.View;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
-
 import adapters.FeedAdapter;
 import config.LoadedFeed;
 import config.UserConfig;
 import models.PartialFeed;
-import models.Post;
 import network.controllers.FeedController;
-import util.DateFormatter;
+import util.RecyclerViewUtil;
+import util.SLogger;
 
 public class FeedActivity extends BaseActivity {
 
@@ -34,6 +30,9 @@ public class FeedActivity extends BaseActivity {
 
     private static final int REQUEST_WRITE_PERMISSION = 786;
     private static final int RESULT_GALLERY = 500;
+
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
 
 
     @Override
@@ -54,7 +53,32 @@ public class FeedActivity extends BaseActivity {
         // specify an adapter (see also next example)
         mAdapter = new FeedAdapter(this, LoadedFeed.getInstance());
         mRecyclerView.setAdapter(mAdapter);
-        new FeedController(this).getOlderFeed(UserConfig.getInstance().getUser().userId, DateFormatter.getReadableCurrentTime());
+        new FeedController(this).getOlderFeed(UserConfig.getInstance().getUser().userId,
+                                LoadedFeed.getInstance().getReferenceTime(), LoadedFeed.getInstance().getOffset());
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if(dy > 0) {
+                    if(RecyclerViewUtil.isAtBottom(mRecyclerView)) {
+                        new FeedController(FeedActivity.this).getOlderFeed(UserConfig.getInstance().getUser().userId,
+                                            LoadedFeed.getInstance().getReferenceTime(), LoadedFeed.getInstance().getOffset());
+                    }
+                } else {
+                     if(RecyclerViewUtil.isAtTop(mRecyclerView)) {
+                        new FeedController(FeedActivity.this).getUpdatedFeed(UserConfig.getInstance().getUser().userId, LoadedFeed.getInstance().getMostRecentPostTime());
+                    }
+                }
+            }
+        });
+
     }
 
     public void onGalleryButtonTap(View v) {
@@ -142,7 +166,9 @@ public class FeedActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFeedUpdate(PartialFeed partialFeed) {
+        SLogger.DYNAMIC_FEED_LOAD.d("Partial Feed list fetched size is " + partialFeed.posts.size());
         mAdapter.onFeedUpdate(partialFeed);
+        SLogger.DYNAMIC_FEED_LOAD.d("Total Feed list fetched size is " + LoadedFeed.getInstance().getPosts().size());
     }
 
 }

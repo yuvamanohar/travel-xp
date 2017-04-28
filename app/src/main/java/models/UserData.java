@@ -6,4 +6,5 @@ package models;
 public class UserData extends JsonModel {
     public User user ;
     public String userStatus ;
+    public String serverTimeAtStart ;
 }

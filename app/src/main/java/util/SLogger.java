@@ -9,7 +9,7 @@ public enum SLogger {
     APP_INIT,
     FB_LOGIN,
     BOOTSTRAP,
-    NETWORK_CALL,
+    DYNAMIC_FEED_LOAD,
     POST_CONTENT;
 
     public static int V_PRIORITY = 2 ;

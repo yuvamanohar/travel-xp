@@ -8,6 +8,7 @@ import java.util.Map;
 import models.PartialFeed;
 import models.Post;
 import models.User;
+import util.TimeModule;
 
 /**
  * Created by yuva on 27/4/17.
@@ -19,11 +20,17 @@ public class LoadedFeed {
     private List<Post> posts ;
     private Map<Long, User> users ;
     private String mostRecentPostTime ;
-    private String leastRecentPostTime ;
+    private String referenceTime;
+    private Integer offset ; // Offset from the post having updatedAt <= referenceTime
+    private Boolean olderFeedEnd;
 
     private LoadedFeed() {
         posts = new ArrayList<>() ;
         users = new HashMap<>() ;
+        mostRecentPostTime = TimeModule.get().getCurrentTimeOnServer() ;
+        referenceTime = mostRecentPostTime ;
+        offset = 0 ;
+        olderFeedEnd = false ;
     }
 
     public static LoadedFeed getInstance() {
@@ -35,6 +42,8 @@ public class LoadedFeed {
     }
 
     public void addPartialFeed(PartialFeed partialFeed) {
+        this.olderFeedEnd = partialFeed.olderFeedEnd;
+        this.offset = partialFeed.offset ;
         for(User user : partialFeed.users) {
             users.put(user.userId, user) ;
         }
@@ -42,7 +51,6 @@ public class LoadedFeed {
         switch (partialFeed.feedType) {
             case OLDER_FEED:
                 posts.addAll(partialFeed.posts) ;
-                leastRecentPostTime = partialFeed.leastRecentPostTime ;
                 break ;
             case UPDATED_FEED:
                 posts.addAll(0, partialFeed.posts) ;
@@ -57,5 +65,21 @@ public class LoadedFeed {
 
     public String getUserName(Long userId) {
         return users.get(userId).socialProfile.completeName ;
+    }
+
+    public String getMostRecentPostTime() {
+        return mostRecentPostTime;
+    }
+
+    public String getReferenceTime() {
+        return referenceTime;
+    }
+
+    public Boolean getOlderFeedEnd() {
+        return olderFeedEnd;
+    }
+
+    public Integer getOffset() {
+        return offset;
     }
 }

@@ -13,7 +13,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppConfig.getInstance();
+        AppConfig.get();
         SLogger.APP_INIT.i("App initialized") ;
     }
 }

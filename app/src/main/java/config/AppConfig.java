@@ -7,6 +7,8 @@ import util.StringUtils;
  * Created by yuva on 14/4/17.
  */
 public class AppConfig {
+    private static AppConfig ourInstance = new AppConfig();
+
     public enum Network {
         FACEBOOK ;
 
@@ -20,9 +22,8 @@ public class AppConfig {
     public static final int LOG_PRIORITY = SLogger.D_PRIORITY ;
     public static String SERVER_BASE_URL = "http://192.168.2.12:9000/" ;
 
-    private static AppConfig ourInstance = new AppConfig();
 
-    public static AppConfig getInstance() {
+    public static AppConfig get() {
         return ourInstance;
     }
 

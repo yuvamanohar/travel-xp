@@ -20,6 +20,7 @@ import models.User;
 import models.UserData;
 import network.controllers.BootstrapController;
 import util.SLogger;
+import util.TimeModule;
 
 public class LoginActivity extends BaseActivity {
     CallbackManager callbackManager;
@@ -27,7 +28,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        AppConfig.getInstance() ;
+        AppConfig.get() ;
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -72,6 +73,7 @@ public class LoginActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserData(UserData userData) {
         UserConfig.getInstance().set(userData.user, userData.userStatus);
+        TimeModule.get().setServerTimeAtStart(userData.serverTimeAtStart);
         launchFeedActivity();
     }
 

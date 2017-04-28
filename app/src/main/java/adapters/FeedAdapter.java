@@ -129,6 +129,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
     }
 
     public void onFeedUpdate(PartialFeed partialFeed) {
+        if(partialFeed.posts.size() == 0)
+            return;
+
         int beginSize = LoadedFeed.getInstance().getPosts().size() ;
         LoadedFeed.getInstance().addPartialFeed(partialFeed);
         switch (partialFeed.feedType) {
