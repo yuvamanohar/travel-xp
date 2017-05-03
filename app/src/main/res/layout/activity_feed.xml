@@ -14,6 +14,19 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/profileButton"
+            android:layout_width="73dp"
+            android:layout_height="75dp"
+            android:layout_gravity="bottom|left"
+            android:clickable="true"
+            android:onClick="onProfileTap"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"
+            app:srcCompat="@android:drawable/ic_menu_search"
+            tools:layout_editor_absoluteX="256dp"
+            tools:layout_editor_absoluteY="493dp" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/postListView"
             android:layout_width="match_parent"

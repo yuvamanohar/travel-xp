@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.tgear.travelxp.ProfileActivity"
+    tools:showIn="@layout/activity_profile">
+
+
+    <RelativeLayout
+        android:layout_width="395dp"
+        android:layout_height="587dp"
+        tools:layout_editor_absoluteY="6dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <ImageView
+            android:id="@+id/profilePic"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+        <EditText
+            android:id="@+id/profileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/profilePic"
+            android:layout_toEndOf="@+id/profilePic"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp" />
+
+        <EditText
+            android:id="@+id/profileDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:text="Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah  Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah   "
+            android:layout_below="@+id/profilePic"
+            android:layout_alignRight="@+id/profileName"
+            android:layout_alignEnd="@+id/profileName"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/followButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profileName"
+            android:layout_alignStart="@+id/profileName"
+            android:layout_below="@+id/profileName"
+            android:layout_marginLeft="51dp"
+            android:layout_marginStart="51dp"
+            android:layout_marginTop="67dp"
+            android:text="Follow" />
+
+        <Button
+            android:id="@+id/followersButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="Followers"
+            android:layout_below="@+id/profileName"
+            android:layout_alignLeft="@+id/profileName"
+            android:layout_alignStart="@+id/profileName" />
+
+        <Button
+            android:id="@+id/followingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Following"
+            android:layout_alignBaseline="@+id/followersButton"
+            android:layout_alignBottom="@+id/followersButton"
+            android:layout_alignRight="@+id/profileName"
+            android:layout_alignEnd="@+id/profileName" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/albumsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignEnd="@+id/profileDesc"
+            android:layout_alignRight="@+id/profileDesc"
+            android:layout_below="@+id/profileDesc"
+            android:layout_toStartOf="@+id/followingButton"
+            android:layout_toLeftOf="@+id/followingButton" />
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>

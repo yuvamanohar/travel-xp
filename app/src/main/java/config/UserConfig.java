@@ -1,5 +1,10 @@
 package config;
 
+import java.util.List;
+
+import models.Album;
+import models.Post;
+import models.ProfileData;
 import models.User;
 
 /**
@@ -11,14 +16,16 @@ public class UserConfig {
     private User user ;
     private String userStatus ;
 
-    public static UserConfig getInstance() {
+    private ProfileData profileData ;
+
+    public static UserConfig get() {
         return ourInstance;
     }
 
     private UserConfig() {
     }
 
-    public void set(User user, String userStatus) {
+    public void setUserData(User user, String userStatus) {
         this.user = user ;
         this.userStatus = userStatus ;
     }
@@ -26,6 +33,11 @@ public class UserConfig {
     public User getUser() {
         return user;
     }
+
+    public Long getUserId() {
+        return user.userId ;
+    }
+
 
     public void setUser(User user) {
         this.user = user;
@@ -37,5 +49,13 @@ public class UserConfig {
 
     public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public ProfileData getProfileData() {
+        return profileData;
+    }
+
+    public void setProfileData(ProfileData profileData) {
+        this.profileData = profileData;
     }
 }

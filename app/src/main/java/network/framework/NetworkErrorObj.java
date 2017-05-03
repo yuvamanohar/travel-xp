@@ -26,6 +26,7 @@ public class NetworkErrorObj<T> {
         public static String FEED_SERVER_ERROR = "Servers need a vacation. Please try again" ;
         public static String INTERNET_ERROR = "No internet connectivity. Please enable internet and try again !" ;
         public static String SERVER_CONNECT_ERROR = "Servers not reachable. Please try again later." ;
+        public static String PROFILE_DATA_ERROR = "Error while loading profile info. Please try again later." ;
     }
 
 }

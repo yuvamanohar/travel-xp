@@ -10,7 +10,8 @@ public enum SLogger {
     FB_LOGIN,
     BOOTSTRAP,
     DYNAMIC_FEED_LOAD,
-    POST_CONTENT;
+    POST_CONTENT,
+    PROFILE_DATA ;
 
     public static int V_PRIORITY = 2 ;
     public static int D_PRIORITY = 3 ;

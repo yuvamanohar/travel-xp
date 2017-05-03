@@ -2,6 +2,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by yuva on 28/4/17.
@@ -28,6 +29,14 @@ public class TestApp {
         return formatter.format(calendar.getTime()) ;
     }
 
+    public static String toLowerCase(String src) {
+        return src.toLowerCase(Locale.ENGLISH) ;
+    }
+    public static String generateUserName(String userNameFeed) {
+        return toLowerCase(userNameFeed).replaceAll("[^A-Za-z0-9]", "") ;
+    }
+
+
     public static void main(String[] args){
         try {
             Date date = formatter.parse(sample) ;
@@ -38,6 +47,7 @@ public class TestApp {
 
             System.out.println("New Time is " + formatter.format(calendar.getTime()) + " Epoch is " +  date.getTime());
 
+            System.out.println("Generated Username is : " + generateUserName("Happy Lucky HiName"));
         } catch (ParseException e) {
             e.printStackTrace();
         }

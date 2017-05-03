@@ -11,6 +11,7 @@ public class User extends JsonModel {
 
     public SocialProfile socialProfile ;
 
+    public String aboutMe ;
     public Long mobile ;
     public String email ;
     public String platform  ;

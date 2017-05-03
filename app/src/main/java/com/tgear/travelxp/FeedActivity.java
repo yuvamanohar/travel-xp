@@ -53,7 +53,7 @@ public class FeedActivity extends BaseActivity {
         // specify an adapter (see also next example)
         mAdapter = new FeedAdapter(this, LoadedFeed.getInstance());
         mRecyclerView.setAdapter(mAdapter);
-        new FeedController(this).getOlderFeed(UserConfig.getInstance().getUser().userId,
+        new FeedController(this).getOlderFeed(UserConfig.get().getUser().userId,
                                 LoadedFeed.getInstance().getReferenceTime(), LoadedFeed.getInstance().getOffset());
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -68,12 +68,12 @@ public class FeedActivity extends BaseActivity {
 
                 if(dy > 0) {
                     if(RecyclerViewUtil.isAtBottom(mRecyclerView)) {
-                        new FeedController(FeedActivity.this).getOlderFeed(UserConfig.getInstance().getUser().userId,
+                        new FeedController(FeedActivity.this).getOlderFeed(UserConfig.get().getUser().userId,
                                             LoadedFeed.getInstance().getReferenceTime(), LoadedFeed.getInstance().getOffset());
                     }
                 } else {
                      if(RecyclerViewUtil.isAtTop(mRecyclerView)) {
-                        new FeedController(FeedActivity.this).getUpdatedFeed(UserConfig.getInstance().getUser().userId, LoadedFeed.getInstance().getMostRecentPostTime());
+                        new FeedController(FeedActivity.this).getUpdatedFeed(UserConfig.get().getUser().userId, LoadedFeed.getInstance().getMostRecentPostTime());
                     }
                 }
             }
@@ -109,6 +109,11 @@ public class FeedActivity extends BaseActivity {
         } else {
             openGallery();
         }
+    }
+
+    public void onProfileTap(View v) {
+        Intent intent = new Intent(this, ProfileActivity.class) ;
+        startActivity(intent);
     }
 
     private void openGallery() {

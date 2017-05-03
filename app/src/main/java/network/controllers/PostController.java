@@ -65,7 +65,7 @@ public class PostController extends BaseController {
                         okhttp3.MultipartBody.FORM, descriptionString);
 
         // finally, execute the request
-        Call<Post> call = service.postContent(UserConfig.getInstance().getUser().userId,
+        Call<Post> call = service.postContent(UserConfig.get().getUser().userId,
                                                             description, multipartBodyList);
         this.enqueue(call) ;
     }

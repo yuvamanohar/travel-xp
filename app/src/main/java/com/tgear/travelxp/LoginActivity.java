@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserData(UserData userData) {
-        UserConfig.getInstance().set(userData.user, userData.userStatus);
+        UserConfig.get().setUserData(userData.user, userData.userStatus);
         TimeModule.get().setServerTimeAtStart(userData.serverTimeAtStart);
         launchFeedActivity();
     }
