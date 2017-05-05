@@ -1,7 +1,6 @@
 package com.tgear.travelxp;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +12,7 @@ import com.bumptech.glide.Glide;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import adapters.AlbumAdapter;
+import adapters.AlbumGridAdapter;
 import config.UserConfig;
 import models.ProfileData;
 import network.controllers.ProfileController;
@@ -22,7 +21,7 @@ import util.SLogger;
 public class ProfileActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
-    private AlbumAdapter mAdapter;
+    private AlbumGridAdapter mAdapter;
     private GridLayoutManager mLayoutManager;
 
     @Override
@@ -44,7 +43,7 @@ public class ProfileActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new AlbumAdapter(this);
+        mAdapter = new AlbumGridAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
 //        if(UserConfig.get().getProfileData() != null)  {

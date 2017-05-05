@@ -19,7 +19,7 @@ import retrofit2.http.Path;
 public interface IPostContent {
 
     @Multipart
-    @PUT("v1/user/{userId}/postContent")
+    @PUT("v1/postContent/user/{userId}")
     Call<Post> postContent(@Path("userId") Long userId,
                           @Part("description") RequestBody description,
                           @Part List<MultipartBody.Part> file);

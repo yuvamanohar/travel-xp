@@ -1,6 +1,7 @@
 package adapters;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,23 +10,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.tgear.travelxp.ViewAlbumActivity;
 import com.tgear.travelxp.R;
+import com.tgear.travelxp.ViewPostActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import config.LoadedFeed;
 import models.Album;
-import models.PartialFeed;
 import models.Post;
+import util.SLogger;
 
 /**
  * Created by yuva on 21/4/17.
  */
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
+public class AlbumGridAdapter extends RecyclerView.Adapter<AlbumGridAdapter.AlbumViewHolder> {
 
-    private Context mContext ;
+    public static String USER_ID = "userId" ;
+    public static String ALBUM_ID = "albumId" ;
+    public static String POST_ID = "postId" ;
+
+    private Activity activity;
     private List<Album> albumList ;
     private List<Post> orphanedPostList ;
 
@@ -48,8 +54,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         }
     }
 
-    public AlbumAdapter(Context context) {
-        this.mContext = context ;
+    public AlbumGridAdapter(Activity activity) {
+        this.activity = activity ;
         this.albumList = new ArrayList<>();
         this.orphanedPostList = new ArrayList<>() ;
     }
@@ -70,13 +76,38 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
     @Override
     public void onBindViewHolder(final AlbumViewHolder holder, int position) {
         if(position < albumList.size()) {
-            Album album = albumList.get(position);
+            final Album album = albumList.get(position);
             holder.albumName.setText(album.name);
-            Glide.with(mContext).load(album.posts.get(0).postDetails.get(0).media).into(holder.thumbnail);
+            Glide.with(activity).load(album.posts.get(0).postDetails.get(0).getCdnMedia()).into(holder.thumbnail);
+            holder.thumbnail.setTag(album.albumId);
+            holder.thumbnail.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Long albumId = (Long) ((ImageView) v).getTag() ;
+                    SLogger.ALBUM_THUMBNAIL.d("Album clicked is : " + albumId);
+                    Intent intent = new Intent(activity, ViewAlbumActivity.class) ;
+                    intent.putExtra(USER_ID, album.userId) ;
+                    intent.putExtra(ALBUM_ID, albumId) ;
+                    activity.startActivity(intent);
+                }
+            });
         } else {
-            Post post = orphanedPostList.get(position - albumList.size()) ;
+            final Post post = orphanedPostList.get(position - albumList.size()) ;
             holder.albumName.setText(post.location);
-            Glide.with(mContext).load(post.postDetails.get(0).media).into(holder.thumbnail);
+            Glide.with(activity).load(post.postDetails.get(0).getCdnMedia()).into(holder.thumbnail);
+            holder.thumbnail.setTag(post.postId) ;
+
+            holder.thumbnail.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Long postId = (Long) ((ImageView) v).getTag() ;
+                    SLogger.POST_THUMBNAIL.d("Post clicked is : " + postId);
+                    Intent intent = new Intent(activity, ViewPostActivity.class) ;
+                    intent.putExtra(USER_ID, post.userId) ;
+                    intent.putExtra(POST_ID, postId) ;
+                    activity.startActivity(intent);
+                }
+            });
         }
 
 //        holder.location.setText(album.location);

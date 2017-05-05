@@ -27,6 +27,7 @@ public class NetworkErrorObj<T> {
         public static String INTERNET_ERROR = "No internet connectivity. Please enable internet and try again !" ;
         public static String SERVER_CONNECT_ERROR = "Servers not reachable. Please try again later." ;
         public static String PROFILE_DATA_ERROR = "Error while loading profile info. Please try again later." ;
+        public static String ALBUM_DATA_ERROR = "Error while loading albums. Please try again later." ;
     }
 
 }

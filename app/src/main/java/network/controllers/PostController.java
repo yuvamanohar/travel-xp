@@ -55,7 +55,7 @@ public class PostController extends BaseController {
                             file);
 
             multipartBodyList.add(MultipartBody.Part.createFormData(file.getName(), file.getName(), requestFile)) ;
-            detail.media = file.getName() ;
+            detail.setMedia(file.getName()) ;
         }
 
         // add another part within the multipart request

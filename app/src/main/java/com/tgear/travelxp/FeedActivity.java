@@ -14,7 +14,7 @@ import android.view.View;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import adapters.FeedAdapter;
+import adapters.PostAdapter;
 import config.LoadedFeed;
 import config.UserConfig;
 import models.PartialFeed;
@@ -25,7 +25,7 @@ import util.SLogger;
 public class FeedActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
-    private FeedAdapter mAdapter;
+    private PostAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private static final int REQUEST_WRITE_PERMISSION = 786;
@@ -40,7 +40,7 @@ public class FeedActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.postListView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.albumPostListView);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -51,7 +51,7 @@ public class FeedActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new FeedAdapter(this, LoadedFeed.getInstance());
+        mAdapter = new PostAdapter(this, LoadedFeed.getInstance());
         mRecyclerView.setAdapter(mAdapter);
         new FeedController(this).getOlderFeed(UserConfig.get().getUser().userId,
                                 LoadedFeed.getInstance().getReferenceTime(), LoadedFeed.getInstance().getOffset());

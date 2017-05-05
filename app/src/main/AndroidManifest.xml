@@ -65,7 +65,24 @@
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewAlbumActivity"
+            android:label="@string/title_activity_album"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewPostActivity"
+            android:label="@string/title_activity_view_post"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EditPostActivity"
+            android:label="@string/title_activity_edit_post"
+            android:parentActivityName=".BaseActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="BaseActivity" />
+        </activity>
     </application>
 
 </manifest>

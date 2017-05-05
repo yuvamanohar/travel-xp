@@ -21,6 +21,7 @@ public class AppConfig {
     public static final Boolean DEBUG = true ;
     public static final int LOG_PRIORITY = SLogger.D_PRIORITY ;
     public static String SERVER_BASE_URL = "http://192.168.2.12:9000/" ;
+    public static String CDN_BASE_URL = SERVER_BASE_URL + "travelxp-cdn/" ;
 
 
     public static AppConfig get() {

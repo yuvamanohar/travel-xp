@@ -14,10 +14,10 @@ import retrofit2.http.Query;
  */
 
 public interface IFeed {
-    @GET("v1/user/{userId}/getOlderFeed")
+    @GET("v1/getOlderFeed/user/{userId}")
     Call<PartialFeed> getOlderFeed(@Path("userId") Long userId, @Query("referenceTime") String referenceTime, @Query("offset") Integer offset) ;
 
-    @GET("v1/user/{userId}/getUpdatedFeed")
+    @GET("v1/getUpdatedFeed/user/{userId}")
     Call<PartialFeed> getUpdatedFeed(@Path("userId") Long userId, @Query("mostRecentPostTime") String mostRecentPostTime) ;
 
 }

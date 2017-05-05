@@ -11,7 +11,9 @@ public enum SLogger {
     BOOTSTRAP,
     DYNAMIC_FEED_LOAD,
     POST_CONTENT,
-    PROFILE_DATA ;
+    PROFILE_DATA,
+    ALBUM_THUMBNAIL,
+    POST_THUMBNAIL ;
 
     public static int V_PRIORITY = 2 ;
     public static int D_PRIORITY = 3 ;

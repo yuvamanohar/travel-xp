@@ -58,4 +58,8 @@ public class UserConfig {
     public void setProfileData(ProfileData profileData) {
         this.profileData = profileData;
     }
+
+    public boolean isMyUserId(Long userId) {
+        return getUserId().equals(userId) ;
+    }
 }

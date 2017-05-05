@@ -11,7 +11,7 @@ import retrofit2.http.Path;
 
 public interface IProfile {
 
-    @GET("v1/user/{userId}/getProfileInfo")
+    @GET("v1/getProfileInfo/user/{userId}")
     Call<ProfileData> getProfileInfo(@Path("userId") Long userId);
 
 }
